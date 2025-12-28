@@ -123,7 +123,7 @@
             Category 1
           </v-chip>
           <h2 class="section-title space-grotesk">Simple Websites</h2>
-          <p class="section-subtitle">Your Digital Brochure - Professional & Affordable</p>
+          <p class="section-subtitle">Your Digital Website - Professional & Affordable</p>
         </div>
 
         <v-row>
@@ -669,7 +669,7 @@ onUnmounted(() => {
 const mainServices = [
   {
     title: 'Simple Websites',
-    description: 'Professional digital brochures perfect for small businesses, freelancers, and organizations. Clean, fast, and effective.',
+    description: 'Professional digital websites, perfect for small businesses, freelancers, and organizations. Clean, fast, and effective.',
     icon: 'mdi-web',
     color: 'primary',
     sectionId: 'simple-websites',
@@ -677,7 +677,7 @@ const mainServices = [
   },
   {
     title: 'Web Applications',
-    description: 'Powerful tools that streamline your operations. From booking systems to inventory management - built for your success.',
+    description: 'Powerful tools that streamline your operations. From booking systems to inventory management , reporting dashboards and data entry applications etc  - built for your success.',
     icon: 'mdi-application-cog',
     color: 'accent',
     sectionId: 'web-applications',
@@ -729,7 +729,7 @@ const applicationExamples = [
     title: 'Booking Systems',
     description: 'Manage appointments, rentals, or class schedules with ease. Automated reminders and calendar integration.',
     icon: 'mdi-calendar-check',
-    features: ['Online Booking', 'Reminders', 'Payment Integration']
+    features: ['Online Booking', 'Reminders']
   },
   {
     title: 'Stock Control Systems',
@@ -1445,56 +1445,9 @@ section {
 }
 
 @media (max-width: 600px) {
-  /* Minimal bottom navigation on mobile - always visible */
+  /* Hide navigation on mobile - users scroll freely */
   .navigation-indicator {
-    right: auto;
-    left: 50%;
-    top: auto;
-    bottom: 20px;
-    transform: translateX(-50%);
-    flex-direction: row;
-    gap: 12px;
-    background: rgba(10, 14, 39, 0.95);
-    padding: 10px 20px;
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 217, 255, 0.3);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  }
-
-  .navigation-indicator.nav-hidden {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .progress-bar {
-    width: 120px;
-    height: 3px;
-  }
-
-  .progress-fill {
-    bottom: auto;
-    left: 0;
-    height: 100%;
-    background: linear-gradient(to right, #00D9FF, #7B2CBF);
-  }
-
-  .nav-dots {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .nav-dot {
-    width: 8px;
-    height: 8px;
-  }
-
-  .nav-dot.active {
-    transform: scale(1.4);
-  }
-
-  .dot-tooltip {
-    display: none;
+    display: none !important;
   }
 
   /* Allow scrolling on mobile */
