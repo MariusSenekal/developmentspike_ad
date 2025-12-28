@@ -19,7 +19,7 @@ services:
       - .env
     restart: unless-stopped
     networks:
-      - webserver
+      - webserver_default
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
       interval: 30s
@@ -28,5 +28,5 @@ services:
       start_period: 40s
 
 networks:
-  webserver:
+  webserver_default:
     external: true
