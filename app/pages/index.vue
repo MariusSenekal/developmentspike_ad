@@ -1,5 +1,24 @@
 <template>
   <div class="home-page">
+    <!-- Minimal Navigation Indicator -->
+    <div class="navigation-indicator" :class="{ 'nav-hidden': !showNav }">
+      <div class="progress-bar">
+        <div class="progress-fill" :style="{ height: progressPercentage + '%' }"></div>
+      </div>
+      <div class="nav-dots">
+        <div
+          v-for="(section, index) in sections"
+          :key="index"
+          class="nav-dot"
+          :class="{ active: index === currentSection }"
+          @click="navigateToSection(index)"
+          :title="section.title"
+        >
+          <span class="dot-tooltip">{{ section.title }}</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Animated Background -->
     <div class="animated-background">
       <div class="grid-overlay"></div>
@@ -13,8 +32,12 @@
       </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Sections Container -->
+    <div class="sections-container">
+      <div class="section-wrapper">
+
+      <!-- Hero Section -->
+      <section id="hero" class="hero-section section-page">
       <v-container>
         <v-row align="center" justify="center">
           <v-col cols="12" md="10" lg="8" class="text-center">
@@ -32,7 +55,7 @@
                   color="primary"
                   variant="elevated"
                   class="pulse-btn"
-                  @click="scrollToSection('services')"
+                  @click="navigateToSection(1)"
                 >
                   <v-icon start>mdi-rocket-launch</v-icon>
                   Explore Services
@@ -42,7 +65,7 @@
                   variant="outlined"
                   color="primary"
                   class="ml-4"
-                  @click="scrollToSection('contact')"
+                  @click="openContactDialog"
                 >
                   <v-icon start>mdi-email</v-icon>
                   Get In Touch
@@ -52,15 +75,10 @@
           </v-col>
         </v-row>
       </v-container>
-      
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator">
-        <v-icon class="bounce" color="primary">mdi-chevron-down</v-icon>
-      </div>
     </section>
 
-    <!-- Services Overview -->
-    <section id="services" class="services-overview">
+      <!-- Services Overview -->
+      <section id="services" class="services-overview section-page">
       <v-container>
         <div class="section-header text-center mb-16">
           <h2 class="section-title space-grotesk">What I Build</h2>
@@ -84,7 +102,7 @@
                 <v-btn
                   :color="service.color"
                   variant="tonal"
-                  @click="scrollToSection(service.sectionId)"
+                  @click="navigateToSection(service.sectionIndex)"
                 >
                   View Examples
                   <v-icon end>mdi-arrow-right</v-icon>
@@ -96,8 +114,8 @@
       </v-container>
     </section>
 
-    <!-- Simple Websites Section -->
-    <section id="simple-websites" class="websites-section">
+      <!-- Simple Websites Section -->
+      <section id="simple-websites" class="websites-section section-page">
       <v-container>
         <div class="section-header text-center mb-12">
           <v-chip color="primary" variant="flat" size="large" class="mb-4">
@@ -134,8 +152,8 @@
       </v-container>
     </section>
 
-    <!-- Web Applications Section -->
-    <section id="web-applications" class="applications-section">
+      <!-- Web Applications Section -->
+      <section id="web-applications" class="applications-section section-page">
       <v-container>
         <div class="section-header text-center mb-12">
           <v-chip color="accent" variant="flat" size="large" class="mb-4">
@@ -184,8 +202,8 @@
       </v-container>
     </section>
 
-    <!-- Custom Solutions Section -->
-    <section class="custom-section">
+      <!-- Custom Solutions Section -->
+      <section id="custom" class="custom-section section-page">
       <v-container>
         <v-card class="custom-card" elevation="12">
           <v-card-text class="pa-12 text-center">
@@ -210,8 +228,8 @@
       </v-container>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="pricing-section">
+      <!-- Pricing Section -->
+      <section id="pricing" class="pricing-section section-page">
       <v-container>
         <div class="section-header text-center mb-12">
           <h2 class="section-title space-grotesk">All-Inclusive Monthly Service</h2>
@@ -246,8 +264,8 @@
       </v-container>
     </section>
 
-    <!-- Contact/CTA Section -->
-    <section id="contact" class="contact-section">
+      <!-- Contact/CTA Section -->
+      <section id="contact" class="contact-section section-page">
       <v-container>
         <v-card class="contact-card" elevation="20">
           <v-card-text class="pa-12 text-center">
@@ -263,7 +281,7 @@
               color="primary"
               variant="elevated"
               class="pulse-btn"
-              href="mailto:contact@yoursite.com"
+              @click="openContactDialog"
             >
               <v-icon start>mdi-email</v-icon>
               Start a Conversation
@@ -273,8 +291,8 @@
       </v-container>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
+      <!-- Footer -->
+      <footer id="footer" class="footer section-page">
       <v-container>
         <div class="text-center">
           <p class="footer-text">
@@ -282,32 +300,372 @@
           </p>
         </div>
       </v-container>
-    </footer>
+      </footer>
+    </div>
+    </div>
+
+    <!-- Contact Dialog -->
+    <v-dialog v-model="showContactDialog" max-width="600" persistent>
+      <v-card class="contact-dialog-card">
+        <v-card-title class="text-h5 space-grotesk pa-6">
+          <v-icon color="primary" class="mr-2">mdi-account-box</v-icon>
+          Get In Touch
+          <v-spacer></v-spacer>
+          <v-btn icon variant="text" @click="closeContactDialog">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        
+        <v-card-text class="pa-6">
+          <v-tabs v-model="contactTab" color="primary" class="mb-6">
+            <v-tab value="email">
+              <v-icon start>mdi-email</v-icon>
+              Email
+            </v-tab>
+            <v-tab value="whatsapp">
+              <v-icon start>mdi-whatsapp</v-icon>
+              WhatsApp
+            </v-tab>
+          </v-tabs>
+
+          <v-window v-model="contactTab">
+            <!-- Email Tab -->
+            <v-window-item value="email">
+              <v-form ref="contactForm" v-model="formValid">
+                <v-text-field
+                  v-model="contactFormData.name"
+                  label="Your Name"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  :rules="[rules.required]"
+                  class="mb-4"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="contactFormData.email"
+                  label="Your Email Address (Optional)"
+                  prepend-inner-icon="mdi-email"
+                  variant="outlined"
+                  type="email"
+                  :rules="[rules.emailOrPhone, rules.emailFormat]"
+                  class="mb-4"
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="contactFormData.phone"
+                  label="Your Phone Number (Optional)"
+                  prepend-inner-icon="mdi-phone"
+                  variant="outlined"
+                  :rules="[rules.emailOrPhone]"
+                  class="mb-4"
+                ></v-text-field>
+
+                <v-textarea
+                  v-model="contactFormData.message"
+                  label="Your Message"
+                  prepend-inner-icon="mdi-message-text"
+                  variant="outlined"
+                  rows="5"
+                  :rules="[rules.required]"
+                  class="mb-4"
+                ></v-textarea>
+
+                <v-alert v-if="sendStatus !== 'idle'" :type="sendStatus === 'success' ? 'success' : 'error'" variant="tonal" class="mb-4">
+                  {{ statusMessage }}
+                </v-alert>
+
+                <v-btn
+                  color="primary"
+                  size="large"
+                  block
+                  @click="sendEmail"
+                  :disabled="!formValid || isSending"
+                  :loading="isSending"
+                >
+                  <v-icon start>mdi-send</v-icon>
+                  {{ isSending ? 'Sending...' : 'Send Email' }}
+                </v-btn>
+              </v-form>
+            </v-window-item>
+
+            <!-- WhatsApp Tab -->
+            <v-window-item value="whatsapp">
+              <div class="text-center py-8">
+                <v-icon color="success" size="80" class="mb-4">mdi-whatsapp</v-icon>
+                <h3 class="text-h6 mb-4">Contact via WhatsApp</h3>
+                <p class="text-body-1 mb-6">
+                  Click the button below to start a conversation on WhatsApp.
+                  We'll get back to you as soon as possible!
+                </p>
+                <v-btn
+                  color="success"
+                  size="x-large"
+                  :href="whatsappLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <v-icon start>mdi-whatsapp</v-icon>
+                  Open WhatsApp
+                </v-btn>
+              </div>
+            </v-window-item>
+          </v-window>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const currentSection = ref(0)
+const isNavigating = ref(false)
+const showNav = ref(true)
+const isMobile = ref(false)
+const showContactDialog = ref(false)
+const contactTab = ref('email')
+const formValid = ref(false)
+const contactForm = ref(null)
+const isSending = ref(false)
+const sendStatus = ref<'idle' | 'success' | 'error'>('idle')
+const statusMessage = ref('')
+let navTimeout: NodeJS.Timeout | null = null
+
+const contactFormData = ref({
+  name: '',
+  email: '',
+  phone: '',
+  message: ''
+})
+
+const rules = {
+  required: (value: string) => !!value || 'This field is required',
+  emailOrPhone: () => {
+    const hasEmail = !!contactFormData.value.email
+    const hasPhone = !!contactFormData.value.phone
+    return hasEmail || hasPhone || 'Please provide at least an email address or phone number'
+  },
+  emailFormat: (value: string) => {
+    if (!value) return true // Optional field
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return pattern.test(value) || 'Invalid email address'
+  }
+}
+
+const whatsappLink = computed(() => {
+  const phone = '0609605216' // Replace with actual WhatsApp number
+  const message = encodeURIComponent('Hi! I\'m interested in your web development services.')
+  return `https://wa.me/${phone}?text=${message}`
+})
+
+const openContactDialog = () => {
+  showContactDialog.value = true
+  contactTab.value = 'email'
+}
+
+const closeContactDialog = () => {
+  showContactDialog.value = false
+  // Reset form
+  contactFormData.value = {
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  }
+  sendStatus.value = 'idle'
+  statusMessage.value = ''
+  if (contactForm.value) {
+    (contactForm.value as any).reset()
+  }
+}
+
+const sendEmail = async () => {
+  if (!formValid.value || isSending.value) return
+  
+  isSending.value = true
+  sendStatus.value = 'idle'
+  statusMessage.value = ''
+  
+  try {
+    const response = await $fetch('/api/send-email', {
+      method: 'POST',
+      body: {
+        name: contactFormData.value.name,
+        email: contactFormData.value.email,
+        phone: contactFormData.value.phone,
+        message: contactFormData.value.message
+      }
+    })
+    
+    if (response.success) {
+      sendStatus.value = 'success'
+      statusMessage.value = 'Message sent successfully! We\'ll get back to you soon.'
+      
+      // Close dialog after showing success message
+      setTimeout(() => {
+        closeContactDialog()
+      }, 2000)
+    } else {
+      sendStatus.value = 'error'
+      statusMessage.value = response.error || 'Failed to send message. Please try again.'
+    }
+  } catch (error: any) {
+    console.error('Email send error:', error)
+    sendStatus.value = 'error'
+    statusMessage.value = 'Failed to send message. Please try WhatsApp or try again later.'
+  } finally {
+    isSending.value = false
+  }
+}
+
+const progressPercentage = computed(() => {
+  return (currentSection.value / (sections.length - 1)) * 100
+})
+
+const sections = [
+  { title: 'Home', id: 'hero' },
+  { title: 'Services', id: 'services' },
+  { title: 'Simple Websites', id: 'simple-websites' },
+  { title: 'Web Applications', id: 'web-applications' },
+  { title: 'Custom Solutions', id: 'custom' },
+  { title: 'Pricing', id: 'pricing' },
+  { title: 'Contact', id: 'contact' },
+  { title: 'Footer', id: 'footer' }
+]
+
+const navigateSection = (direction: number) => {
+  if (isNavigating.value) return
+  
+  const newSection = currentSection.value + direction
+  if (newSection >= 0 && newSection < sections.length) {
+    isNavigating.value = true
+    currentSection.value = newSection
+    setTimeout(() => {
+      isNavigating.value = false
+    }, 800)
+  }
+}
+
+const navigateToSection = (index: number) => {
+  if (isNavigating.value) return
+  isNavigating.value = true
+  currentSection.value = index
+  
+  // Scroll to the section smoothly
+  const sectionId = sections[index].id
+  const element = document.getElementById(sectionId)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+  
+  setTimeout(() => {
+    isNavigating.value = false
+  }, 800)
+}
+
+const updateCurrentSection = () => {
+  // Update current section based on scroll position
+  const scrollPosition = window.scrollY + window.innerHeight / 2
+  
+  sections.forEach((section, index) => {
+    const element = document.getElementById(section.id)
+    if (element) {
+      const rect = element.getBoundingClientRect()
+      const elementTop = rect.top + window.scrollY
+      const elementBottom = elementTop + rect.height
+      
+      if (scrollPosition >= elementTop && scrollPosition <= elementBottom) {
+        currentSection.value = index
+      }
+    }
+  })
+}
+
+const resetNavTimeout = () => {
+  showNav.value = true
+  // Don't auto-hide on mobile/touch devices
+  if (isMobile.value) return
+  
+  if (navTimeout) clearTimeout(navTimeout)
+  navTimeout = setTimeout(() => {
+    showNav.value = false
+  }, 3000)
+}
+
+const handleMouseMove = () => {
+  resetNavTimeout()
+}
+
+const checkIfMobile = () => {
+  isMobile.value = window.innerWidth <= 600 || 'ontouchstart' in window
+  if (isMobile.value) {
+    showNav.value = true // Always show nav on mobile
+  }
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+    event.preventDefault()
+    navigateSection(1)
+  } else if (event.key === 'ArrowUp' || event.key === 'PageUp') {
+    event.preventDefault()
+    navigateSection(-1)
+  } else if (event.key === 'Home') {
+    event.preventDefault()
+    navigateToSection(0)
+  } else if (event.key === 'End') {
+    event.preventDefault()
+    navigateToSection(sections.length - 1)
+  }
+}
+
+const handleScroll = () => {
+  updateCurrentSection()
+  resetNavTimeout()
+}
+
+onMounted(() => {
+  checkIfMobile()
+  window.addEventListener('keydown', handleKeydown)
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('mousemove', handleMouseMove, { passive: true })
+  window.addEventListener('resize', checkIfMobile)
+  resetNavTimeout()
+  updateCurrentSection()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('resize', checkIfMobile)
+  if (navTimeout) clearTimeout(navTimeout)
+})
+
 const mainServices = [
   {
     title: 'Simple Websites',
     description: 'Professional digital brochures perfect for small businesses, freelancers, and organizations. Clean, fast, and effective.',
     icon: 'mdi-web',
     color: 'primary',
-    sectionId: 'simple-websites'
+    sectionId: 'simple-websites',
+    sectionIndex: 2
   },
   {
     title: 'Web Applications',
     description: 'Powerful tools that streamline your operations. From booking systems to inventory management - built for your success.',
     icon: 'mdi-application-cog',
     color: 'accent',
-    sectionId: 'web-applications'
+    sectionId: 'web-applications',
+    sectionIndex: 3
   }
 ]
 
 const websiteExamples = [
   {
     title: 'Professional Services',
-    description: 'A 5-page site for a plumber, lawyer, or consultant',
+    description: 'Showcase your expertise with a polished, multi-page presence',
     icon: 'mdi-briefcase',
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
   },
@@ -388,13 +746,6 @@ const pricingFeatures = [
   'Performance Monitoring'
 ]
 
-const scrollToSection = (id: string) => {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-}
-
 const getCodeSnippet = (index: number) => {
   const snippets = [
     'const build = () => amazing();',
@@ -424,7 +775,115 @@ const getCodeLineStyle = (index: number) => {
 <style scoped>
 .home-page {
   position: relative;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Minimal Navigation Indicator */
+.navigation-indicator {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.navigation-indicator.nav-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.progress-bar {
+  width: 2px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, #00D9FF, #7B2CBF);
+  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+
+.nav-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-dot:hover {
+  background: rgba(0, 217, 255, 0.6);
+  transform: scale(1.4);
+}
+
+.nav-dot:hover .dot-tooltip {
+  opacity: 1;
+  transform: translateX(-10px);
+}
+
+.nav-dot.active {
+  background: #00D9FF;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.8);
+  transform: scale(1.6);
+}
+
+.dot-tooltip {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  background: rgba(10, 14, 39, 0.95);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+/* Sections Container */
+.sections-container {
+  position: relative;
+  overflow: visible;
+}
+
+.section-wrapper {
+  /* No transform needed - free scrolling enabled */
+}
+
+.section-page {
   min-height: 100vh;
+  height: auto;
+  display: flex;
+  align-items: center;
+  overflow-y: visible;
 }
 
 /* Animated Background */
@@ -524,10 +983,6 @@ const getCodeLineStyle = (index: number) => {
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 1;
 }
 
@@ -573,29 +1028,11 @@ const getCodeLineStyle = (index: number) => {
   flex-wrap: wrap;
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.bounce {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-20px); }
-  60% { transform: translateY(-10px); }
-}
-
 /* Sections */
 section {
   position: relative;
   z-index: 1;
-  padding: 100px 0;
+  padding: 60px 0;
 }
 
 .section-header {
@@ -862,6 +1299,13 @@ section {
   font-size: 0.9rem;
 }
 
+/* Contact Dialog */
+.contact-dialog-card {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.98) 0%, rgba(42, 47, 74, 0.98) 100%) !important;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(0, 217, 255, 0.3);
+}
+
 /* Animations */
 .fade-in-up {
   animation: fadeInUp 1s ease-out;
@@ -945,6 +1389,14 @@ section {
 
 /* Responsive */
 @media (max-width: 960px) {
+  .navigation-indicator {
+    right: 20px;
+  }
+
+  .progress-bar {
+    height: 150px;
+  }
+
   .hero-buttons {
     flex-direction: column;
     align-items: center;
@@ -952,21 +1404,295 @@ section {
   
   .hero-buttons .v-btn {
     margin-left: 0 !important;
+    width: 100%;
+    max-width: 300px;
   }
   
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-card {
+    margin-bottom: 20px;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
   }
 }
 
 @media (max-width: 600px) {
-  section {
-    padding: 60px 0;
+  /* Minimal bottom navigation on mobile - always visible */
+  .navigation-indicator {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 20px;
+    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 12px;
+    background: rgba(10, 14, 39, 0.95);
+    padding: 10px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   }
-  
+
+  .navigation-indicator.nav-hidden {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .progress-bar {
+    width: 120px;
+    height: 3px;
+  }
+
+  .progress-fill {
+    bottom: auto;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(to right, #00D9FF, #7B2CBF);
+  }
+
+  .nav-dots {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .nav-dot.active {
+    transform: scale(1.4);
+  }
+
+  .dot-tooltip {
+    display: none;
+  }
+
+  /* Allow scrolling on mobile */
+  .home-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sections-container {
+    overflow: visible;
+  }
+
+  .section-wrapper {
+    transform: none !important;
+  }
+
+  .section-page {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: visible;
+  }
+
+  /* Adjust section padding for mobile */
+  section {
+    padding: 30px 0;
+  }
+
+  .section-page {
+    padding: 20px 0;
+  }
+
+  /* Hero section mobile */
+  .hero-content {
+    padding: 20px 0;
+  }
+
+  .hero-title {
+    font-size: 2rem !important;
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 30px;
+  }
+
+  .hero-buttons {
+    gap: 12px;
+  }
+
+  .hero-buttons .v-btn {
+    font-size: 0.95rem;
+  }
+
+  /* Section headers mobile */
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.75rem !important;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem !important;
+  }
+
+  /* Cards mobile */
+  .service-card {
+    margin-bottom: 16px;
+  }
+
+  .service-card .pa-8 {
+    padding: 24px !important;
+  }
+
+  .service-title {
+    font-size: 1.4rem !important;
+  }
+
+  .service-description {
+    font-size: 0.9rem;
+  }
+
+  .example-card .pa-6 {
+    padding: 16px !important;
+  }
+
+  .example-title {
+    font-size: 1.1rem !important;
+  }
+
+  .example-description {
+    font-size: 0.85rem;
+  }
+
+  .card-icon-wrapper {
+    height: 100px;
+  }
+
+  .application-card .pa-8 {
+    padding: 24px !important;
+  }
+
+  .app-title {
+    font-size: 1.3rem !important;
+  }
+
+  .app-description {
+    font-size: 0.9rem;
+  }
+
+  .app-icon-box {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Custom section mobile */
+  .custom-card .pa-12 {
+    padding: 32px 24px !important;
+  }
+
+  .custom-title {
+    font-size: 1.6rem !important;
+  }
+
+  .custom-description {
+    font-size: 1rem !important;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature-name {
+    font-size: 0.85rem;
+  }
+
+  /* Pricing section mobile */
+  .pricing-card .pa-10 {
+    padding: 32px 24px !important;
+  }
+
+  .pricing-title {
+    font-size: 1.5rem !important;
+  }
+
+  .pricing-features .text-h6 {
+    font-size: 0.95rem !important;
+  }
+
+  /* Contact section mobile */
+  .contact-card .pa-12 {
+    padding: 32px 24px !important;
+  }
+
+  .contact-title {
+    font-size: 1.8rem !important;
+  }
+
+  .contact-description {
+    font-size: 1rem !important;
+  }
+
+  /* Footer mobile */
+  .footer {
+    padding: 30px 0;
+  }
+
+  .footer-text {
+    font-size: 0.8rem;
+  }
+
+  /* Reduce animations on mobile for performance */
+  .gradient-orb {
+    opacity: 0.2;
+  }
+
+  .floating-code {
+    display: none;
+  }
+
+  /* Better spacing for mobile */
+  .v-container {
+    padding: 0 16px !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 400px) {
+  .navigation-indicator {
+    bottom: 10px;
+    padding: 8px 16px;
+    gap: 10px;
+  }
+
+  .progress-bar {
+    width: 80px;
+  }
+
+  .nav-dots {
+    gap: 8px;
+  }
+
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .hero-title {
+    font-size: 1.75rem !important;
+  }
+
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
+  }
+
+  .v-container {
+    padding: 0 12px !important;
   }
 }
 </style>

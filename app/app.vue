@@ -14,12 +14,12 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  overflow: hidden;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .space-grotesk {
