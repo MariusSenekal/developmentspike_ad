@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
         
         // Open Graph / Facebook
+        { property: 'fb:app_id', content: '966242223397117' },
         { property: 'og:type', content: 'website' },
         { property: 'og:url', content: 'https://developmentspike.co.za' },
         { property: 'og:title', content: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality' },

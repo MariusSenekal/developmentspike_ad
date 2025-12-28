@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Open Graph Tags</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #00D9FF;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #00D9FF;
+        }
+        a {
+            color: #00D9FF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        code {
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔍 How to Fix WhatsApp Link Preview</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Important:</strong> WhatsApp and Facebook cache link previews for up to 7 days. You MUST clear their cache before the preview will update.
+        </div>
+
+        <div class="step">
+            <h3>Step 1: Clear Facebook's Cache</h3>
+            <ol>
+                <li>Open this link in your browser:<br>
+                    <a href="https://developers.facebook.com/tools/debug/" target="_blank">https://developers.facebook.com/tools/debug/</a>
+                </li>
+                <li>Paste your URL: <code>https://developmentspike.co.za</code></li>
+                <li>Click <strong>"Debug"</strong> or <strong>"Scrape Again"</strong></li>
+                <li>Click <strong>"Scrape Again"</strong> 2-3 more times to force refresh</li>
+                <li>You should see your image and description appear!</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Test on WhatsApp</h3>
+            <ol>
+                <li>Open WhatsApp on your phone</li>
+                <li>Send the link to yourself or a friend: <code>https://developmentspike.co.za</code></li>
+                <li>Wait 3-5 seconds for the preview to load</li>
+                <li>You should see:
+                    <ul>
+                        <li>✅ Title: "Custom Web Development Solutions..."</li>
+                        <li>✅ Description: "Professional custom web development services..."</li>
+                        <li>✅ Image: Your branded gradient image</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Alternative Testing Tools</h3>
+            <ul>
+                <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/post-inspector/" target="_blank">https://www.linkedin.com/post-inspector/</a></li>
+                <li><strong>Twitter:</strong> <a href="https://cards-dev.twitter.com/validator" target="_blank">https://cards-dev.twitter.com/validator</a></li>
+                <li><strong>WhatsApp Business API Validator:</strong> <a href="https://www.bannerbear.com/tools/whatsapp-link-preview-generator/" target="_blank">Preview Tool</a></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>✅ Your Meta Tags are Working!</h3>
+            <p>I've verified that your website has all the correct Open Graph tags:</p>
+            <ul>
+                <li><span class="success">✓</span> og:title</li>
+                <li><span class="success">✓</span> og:description</li>
+                <li><span class="success">✓</span> og:image (accessible at /og-image.jpg)</li>
+                <li><span class="success">✓</span> og:url</li>
+                <li><span class="success">✓</span> Twitter Card tags</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>💡 Pro Tip:</strong> If still not working after scraping:
+            <ul>
+                <li>Make sure you're using HTTPS (not HTTP)</li>
+                <li>Try in an incognito/private browser window</li>
+                <li>Clear your browser cache</li>
+                <li>Wait 5-10 minutes and try again</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
