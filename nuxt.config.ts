@@ -21,9 +21,9 @@ export default defineNuxtConfig({
         { property: 'og:url', content: 'https://developmentspike.co.za/' },
         { property: 'og:title', content: 'Transform Your Ideas Into Digital Reality - Development Spike' },
         { property: 'og:description', content: 'Custom Web Development Solutions. Professional web services from simple websites to complex applications that power your business.' },
-        { property: 'og:image', content: 'https://developmentspike.co.za/og-image.png?v=2' },
-        { property: 'og:image:secure_url', content: 'https://developmentspike.co.za/og-image.png?v=2' },
-        { property: 'og:image:url', content: 'https://developmentspike.co.za/og-image.png?v=2' },
+        { property: 'og:image', content: 'https://developmentspike.co.za/og-image.png?v=20251228' },
+        { property: 'og:image:secure_url', content: 'https://developmentspike.co.za/og-image.png?v=20251228' },
+        { property: 'og:image:url', content: 'https://developmentspike.co.za/og-image.png?v=20251228' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         { property: 'og:image:alt', content: 'Transform Your Ideas Into Digital Reality - Custom Web Development Solutions' },
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
         { name: 'twitter:url', content: 'https://developmentspike.co.za' },
         { name: 'twitter:title', content: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality' },
         { name: 'twitter:description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
-        { name: 'twitter:image', content: 'https://developmentspike.co.za/og-image.png?v=2' },
+        { name: 'twitter:image', content: 'https://developmentspike.co.za/og-image.png?v=20251228' },
         { name: 'twitter:image:alt', content: 'Custom Web Development Solutions' },
         
         // Additional SEO
