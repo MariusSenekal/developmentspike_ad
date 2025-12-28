@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with optimizations
+RUN npm ci --prefer-offline --no-audit --progress=false
 
 # Copy application files
 COPY . .
@@ -28,8 +28,8 @@ ENV NODE_ENV=production
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm install --omit=dev
+# Install only production dependencies with optimizations
+RUN npm ci --prefer-offline --no-audit --progress=false --omit=dev
 
 # Copy built application from builder stage
 COPY --from=builder /app/.output /app/.output
