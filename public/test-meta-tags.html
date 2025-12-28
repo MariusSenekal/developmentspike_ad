@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tags Tester - Development Spike</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #00D9FF;
+        }
+        .og-image-preview {
+            max-width: 600px;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+        }
+        .test-url {
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 5px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background: #00D9FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #00b8d4;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 WhatsApp & Social Media Meta Tags Tester</h1>
+        
+        <div class="instructions">
+            <h3>How to Test on WhatsApp:</h3>
+            <ol>
+                <li>Copy the URL: <code>https://developmentspike.co.za/</code></li>
+                <li>Open WhatsApp on your phone</li>
+                <li>Paste the URL in any chat</li>
+                <li>Wait a few seconds for the preview to load</li>
+                <li>You should see the image and description below</li>
+            </ol>
+            <p><strong>Note:</strong> WhatsApp caches previews. If you don't see changes immediately, try:</p>
+            <ul>
+                <li>Adding a query parameter like: <code>https://developmentspike.co.za/?v=1</code></li>
+                <li>Or use the Facebook Debug tool first (see below)</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>Expected Preview</h2>
+            <p><strong>Title:</strong> Transform Your Ideas Into Digital Reality - Development Spike</p>
+            <p><strong>Description:</strong> Custom Web Development Solutions. Professional web services from simple websites to complex applications that power your business.</p>
+            <h3>Image:</h3>
+            <img src="/og-image.jpg" alt="OG Image" class="og-image-preview">
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 Testing Tools</h2>
+            
+            <h3>1. Facebook Debugger (Best for WhatsApp)</h3>
+            <p>Facebook owns WhatsApp, so this tool will show you exactly what WhatsApp sees:</p>
+            <div class="test-url">
+                <a href="https://developers.facebook.com/tools/debug/?q=https://developmentspike.co.za/" target="_blank">
+                    https://developers.facebook.com/tools/debug/?q=https://developmentspike.co.za/
+                </a>
+            </div>
+            <button onclick="window.open('https://developers.facebook.com/tools/debug/?q=https://developmentspike.co.za/', '_blank')">
+                Open Facebook Debugger
+            </button>
+            <p><em>Click "Scrape Again" in the debugger to clear WhatsApp's cache</em></p>
+
+            <h3>2. LinkedIn Post Inspector</h3>
+            <div class="test-url">
+                <a href="https://www.linkedin.com/post-inspector/inspect/https://developmentspike.co.za/" target="_blank">
+                    LinkedIn Inspector
+                </a>
+            </div>
+
+            <h3>3. Twitter Card Validator</h3>
+            <div class="test-url">
+                <a href="https://cards-dev.twitter.com/validator" target="_blank">
+                    Twitter Card Validator
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Current Meta Tags</h2>
+            <pre id="meta-tags"></pre>
+        </div>
+
+        <div class="test-section">
+            <h2>🖼️ Image Direct Link</h2>
+            <p>Test if the image loads correctly:</p>
+            <div class="test-url">
+                <a href="https://developmentspike.co.za/og-image.jpg" target="_blank">
+                    https://developmentspike.co.za/og-image.jpg
+                </a>
+            </div>
+            <button onclick="testImage()">Test Image Load</button>
+            <div id="image-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Display current meta tags
+        function displayMetaTags() {
+            const metaTags = document.querySelectorAll('meta[property^="og:"], meta[name^="twitter:"]');
+            let metaText = '';
+            metaTags.forEach(tag => {
+                const property = tag.getAttribute('property') || tag.getAttribute('name');
+                const content = tag.getAttribute('content');
+                metaText += `${property}: ${content}\n`;
+            });
+            
+            // Add expected meta tags since this is a static test page
+            metaText = `Expected Meta Tags on Main Site:
+            
+og:type: website
+og:url: https://developmentspike.co.za/
+og:title: Transform Your Ideas Into Digital Reality - Development Spike
+og:description: Custom Web Development Solutions. Professional web services...
+og:image: https://developmentspike.co.za/og-image.jpg
+og:image:secure_url: https://developmentspike.co.za/og-image.jpg
+og:image:width: 1200
+og:image:height: 630
+og:image:type: image/jpeg
+og:site_name: Development Spike
+
+twitter:card: summary_large_image
+twitter:image: https://developmentspike.co.za/og-image.jpg`;
+            
+            document.getElementById('meta-tags').textContent = metaText;
+        }
+
+        function testImage() {
+            const resultDiv = document.getElementById('image-result');
+            resultDiv.innerHTML = '<p>Testing image...</p>';
+            
+            const img = new Image();
+            img.onload = function() {
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        ✅ Image loads successfully!<br>
+                        Dimensions: ${this.width}x${this.height}
+                    </div>
+                `;
+            };
+            img.onerror = function() {
+                resultDiv.innerHTML = `
+                    <div style="background: #ffebee; padding: 10px; border-radius: 5px;">
+                        ❌ Image failed to load. Check the console for errors.
+                    </div>
+                `;
+            };
+            img.src = 'https://developmentspike.co.za/og-image.jpg?t=' + Date.now();
+        }
+
+        displayMetaTags();
+    </script>
+</body>
+</html>
