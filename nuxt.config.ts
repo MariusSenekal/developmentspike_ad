@@ -15,20 +15,22 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
         
-        // Open Graph / Facebook
+        // Open Graph / Facebook / WhatsApp
         { property: 'fb:app_id', content: '966242223397117' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: 'https://developmentspike.co.za' },
-        { property: 'og:title', content: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality' },
-        { property: 'og:description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
+        { property: 'og:url', content: 'https://developmentspike.co.za/' },
+        { property: 'og:title', content: 'Transform Your Ideas Into Digital Reality - Development Spike' },
+        { property: 'og:description', content: 'Custom Web Development Solutions. Professional web services from simple websites to complex applications that power your business.' },
         { property: 'og:image', content: 'https://developmentspike.co.za/og-image.jpg' },
         { property: 'og:image:secure_url', content: 'https://developmentspike.co.za/og-image.jpg' },
+        { property: 'og:image:url', content: 'https://developmentspike.co.za/og-image.jpg' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
-        { property: 'og:image:alt', content: 'Custom Web Development Solutions' },
+        { property: 'og:image:alt', content: 'Transform Your Ideas Into Digital Reality - Custom Web Development Solutions' },
         { property: 'og:image:type', content: 'image/jpeg' },
         { property: 'og:site_name', content: 'Development Spike' },
         { property: 'og:locale', content: 'en_ZA' },
+        { property: 'og:updated_time', content: new Date().toISOString() },
         
         // Twitter Card
         { name: 'twitter:card', content: 'summary_large_image' },
