@@ -22,9 +22,11 @@ export default defineNuxtConfig({
         { property: 'og:title', content: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality' },
         { property: 'og:description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
         { property: 'og:image', content: 'https://developmentspike.co.za/og-image.jpg' },
+        { property: 'og:image:secure_url', content: 'https://developmentspike.co.za/og-image.jpg' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         { property: 'og:image:alt', content: 'Custom Web Development Solutions' },
+        { property: 'og:image:type', content: 'image/jpeg' },
         { property: 'og:site_name', content: 'Development Spike' },
         { property: 'og:locale', content: 'en_ZA' },
         
@@ -35,9 +37,6 @@ export default defineNuxtConfig({
         { name: 'twitter:description', content: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.' },
         { name: 'twitter:image', content: 'https://developmentspike.co.za/og-image.jpg' },
         { name: 'twitter:image:alt', content: 'Custom Web Development Solutions' },
-        
-        // WhatsApp specific (uses Open Graph)
-        { property: 'og:image:type', content: 'image/jpeg' },
         
         // Additional SEO
         { name: 'author', content: 'Development Spike' },

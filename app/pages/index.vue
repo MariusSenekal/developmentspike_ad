@@ -425,10 +425,12 @@ useSeoMeta({
   description: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.',
   ogTitle: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality',
   ogDescription: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.',
-  ogImage: 'https://developmentspike.co.za/og-image.jpg?v=2',
+  ogImage: 'https://developmentspike.co.za/og-image.jpg',
+  ogImageSecureUrl: 'https://developmentspike.co.za/og-image.jpg',
   ogImageWidth: '1200',
   ogImageHeight: '630',
   ogImageAlt: 'Custom Web Development Solutions',
+  ogImageType: 'image/jpeg',
   ogUrl: 'https://developmentspike.co.za',
   ogType: 'website',
   ogSiteName: 'Development Spike',
@@ -436,7 +438,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: 'Custom Web Development Solutions | Transform Your Ideas Into Digital Reality',
   twitterDescription: 'Professional custom web development services. From simple websites to complex applications - I build digital solutions that power your business.',
-  twitterImage: 'https://developmentspike.co.za/og-image.jpg?v=2',
+  twitterImage: 'https://developmentspike.co.za/og-image.jpg',
   twitterImageAlt: 'Custom Web Development Solutions',
 })
 
