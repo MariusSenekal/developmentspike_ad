@@ -317,14 +317,31 @@
         </v-card-title>
         
         <v-card-text class="pa-6">
-          <v-tabs v-model="contactTab" color="primary" class="mb-6">
-            <v-tab value="email">
-              <v-icon start>mdi-email</v-icon>
-              Email
+          <!-- Highlight Contact Options -->
+          <v-alert
+            color="primary"
+            variant="tonal"
+            prominent
+            class="mb-6"
+            border="start"
+          >
+            <div class="d-flex align-center">
+              <v-icon size="40" class="mr-3">mdi-chat-processing</v-icon>
+              <div>
+                <div class="text-h6 mb-1">Choose Your Preferred Contact Method</div>
+                <div class="text-body-2">Get in touch via <strong>Email</strong> or <strong>WhatsApp</strong> - whichever works best for you!</div>
+              </div>
+            </div>
+          </v-alert>
+
+          <v-tabs v-model="contactTab" color="primary" class="mb-6" grow>
+            <v-tab value="email" class="text-h6">
+              <v-icon start size="28">mdi-email</v-icon>
+              <span class="font-weight-bold">Email</span>
             </v-tab>
-            <v-tab value="whatsapp">
-              <v-icon start>mdi-whatsapp</v-icon>
-              WhatsApp
+            <v-tab value="whatsapp" class="text-h6">
+              <v-icon start size="28" color="success">mdi-whatsapp</v-icon>
+              <span class="font-weight-bold" style="color: #25D366;">WhatsApp</span>
             </v-tab>
           </v-tabs>
 
@@ -343,20 +360,24 @@
 
                 <v-text-field
                   v-model="contactFormData.email"
-                  label="Your Email Address (Optional)"
+                  label="Your Email Address"
+                  hint="Provide either email or phone number (at least one required)"
+                  persistent-hint
                   prepend-inner-icon="mdi-email"
                   variant="outlined"
                   type="email"
-                  :rules="[rules.emailOrPhone, rules.emailFormat]"
+                  :rules="[rules.emailFormat]"
                   class="mb-4"
                 ></v-text-field>
 
                 <v-text-field
                   v-model="contactFormData.phone"
-                  label="Your Phone Number (Optional)"
+                  label="Your Phone Number"
+                  hint="Provide either email or phone number (at least one required)"
+                  persistent-hint
                   prepend-inner-icon="mdi-phone"
                   variant="outlined"
-                  :rules="[rules.emailOrPhone]"
+                  :rules="[]"
                   class="mb-4"
                 ></v-text-field>
 
@@ -370,6 +391,11 @@
                   class="mb-4"
                 ></v-textarea>
 
+                <v-alert v-if="!hasContactMethod" color="warning" variant="tonal" class="mb-4">
+                  <v-icon start>mdi-alert</v-icon>
+                  Please provide at least an email address or phone number
+                </v-alert>
+
                 <v-alert v-if="sendStatus !== 'idle'" :type="sendStatus === 'success' ? 'success' : 'error'" variant="tonal" class="mb-4">
                   {{ statusMessage }}
                 </v-alert>
@@ -379,7 +405,7 @@
                   size="large"
                   block
                   @click="sendEmail"
-                  :disabled="!formValid || isSending"
+                  :disabled="!formValid || isSending || !hasContactMethod"
                   :loading="isSending"
                 >
                   <v-icon start>mdi-send</v-icon>
@@ -464,17 +490,16 @@ const contactFormData = ref({
 
 const rules = {
   required: (value: string) => !!value || 'This field is required',
-  emailOrPhone: () => {
-    const hasEmail = !!contactFormData.value.email
-    const hasPhone = !!contactFormData.value.phone
-    return hasEmail || hasPhone || 'Please provide at least an email address or phone number'
-  },
   emailFormat: (value: string) => {
     if (!value) return true // Optional field
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return pattern.test(value) || 'Invalid email address'
   }
 }
+
+const hasContactMethod = computed(() => {
+  return !!contactFormData.value.email || !!contactFormData.value.phone
+})
 
 const whatsappLink = computed(() => {
   const phone = '0609605216' // Replace with actual WhatsApp number
